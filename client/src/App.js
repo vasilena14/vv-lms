@@ -1,14 +1,19 @@
 import React from 'react';
 import {Container, AppBar, Typography, Grow, Grid} from '@material-ui/core';
 
+import Courses from './components/Courses/Courses';
+import Form from './components/Form/Form';
 import cover from './images/cover.png';
+import useStyles from './styles';
 
 const App = () => {
+    const classes = useStyles(); 
+
     return (
         <Container maxWidth="lg">
-            <AppBar position="static" color="inherit">
-                <Typography variant="h2" align="center">Learn-O</Typography>
-                <img src={cover} alt="cover" height="60" />
+            <AppBar className={classes.appBar} position="static" color="inherit">
+                <Typography className={classes.heading} variant="h2" align="center">Learn-O</Typography>
+                <img className={classes.image} src={cover} alt="cover" height="60" />
             </AppBar>
             <Grow in>
                 <Container>
