@@ -1,9 +1,16 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
+
 import Course from './Course/Course';
+
 import useStyles from './styles';
 
 const Courses = () => {
-    const classes = useStyles(); 
+    const courses = useSelector(() => StaticRange.courses);
+    const classes = useStyles();
+
+    console.log(courses);
+    
     return (
         <>
         <h1>COURSES</h1>

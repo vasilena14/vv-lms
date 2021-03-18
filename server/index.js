@@ -7,11 +7,11 @@ import courseRoutes from './routes/courses.js';
 
 const app = express();
 
-app.use('/courses', courseRoutes);
-
 app.use(bodyParser.json({limit: "30mb", extended: true}));
 app.use(bodyParser.urlencoded({limit: "30mb", extended: true}));
 app.use(cors());
+
+app.use('/courses', courseRoutes);
 
 const CONNECTION_URL = 'mongodb+srv://user123:123user123@cluster0.6umk0.mongodb.net/myFirstDatabase?retryWrites=true&w=majority';
 const PORT = process.env.PORT || 5000;
