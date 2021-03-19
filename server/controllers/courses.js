@@ -1,3 +1,4 @@
+import mongoose from 'mongoose';
 import CourseInfo from '../models/courseInfo.js';
 
 export const getCourses = async (req, res) => {
@@ -12,7 +13,7 @@ export const getCourses = async (req, res) => {
     }
 }
 
-export const createCourses = async (req, res) => {
+export const createCourse = async (req, res) => {
     // res.send('Course Creation');
     const course = req.body;
 
@@ -25,4 +26,15 @@ export const createCourses = async (req, res) => {
     } catch (error) {
         res.status(409).json({message: error.message});
     }
+}
+
+export const updateCourse =  async (req, res) => {
+    const { id: _id } = req.params;
+    const course = req.body;
+
+    if(!mongoose.Types.ObjectId.isValid(_id)) return res.status(404).send('No post with that id');
+
+    const updatedCourse = await CourseInfo.findByIdAndUpdate(_id, course, {new: true});
+
+    res.json(updatedCourse);
 }
