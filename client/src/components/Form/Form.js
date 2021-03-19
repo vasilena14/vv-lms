@@ -1,30 +1,42 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { TextField, Button, Typography, Paper } from '@material-ui/core';
 import FileBase from 'react-file-base64';
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux';
 
 import useStyles from './styles';
-import { createCourse } from '../../actions/courses';
+import { createCourse, updateCourse } from '../../actions/courses';
 
-const Form = () => {
+
+const Form = ({ currentId, setCurrentId }) => {
+    const course = useSelector((state) => currentId ? state.courses.find((p) => p._id === currentId) : null );
     const [courseInfo, setCourseInfo] = useState({ creator: '', title: '', description: '', tags: '', selectedFile: '' });
     const classes = useStyles(); 
     const dispatch = useDispatch();
 
+    useEffect(() => {
+        if(course) setCourseInfo(course);
+    }, [course])
+
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        dispatch(createCourse(courseInfo));
+        if(currentId) {
+            dispatch(updateCourse(currentId, courseInfo));   
+        } else {
+            dispatch(createCourse(courseInfo));
+        }
+        clear();
     }
 
     const clear = () => {
-
+        setCurrentId(null);
+        setCourseInfo({creator: '', title: '', description: '', tags: '', selectedFile: ''});
     }
 
     return (
         <Paper className={classes.paper}>
             <form autoComplete="off" noValidate className={`${classes.root} ${classes.form}`} onSubmit={handleSubmit}>
-                <Typography variant="h6">Creating a Course</Typography>
+                <Typography variant="h6">{currentId ? 'Editing' : 'Creating'} a Course</Typography>
                 <TextField 
                     name="creator" 
                     variant="outlined" 

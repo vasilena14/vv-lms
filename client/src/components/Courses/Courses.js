@@ -6,7 +6,7 @@ import Course from './Course/Course';
 
 import useStyles from './styles';
 
-const Courses = () => {
+const Courses = ({ setCurrentId }) => {
     const courses = useSelector((state) => state.courses);
     const classes = useStyles();
 
@@ -22,7 +22,7 @@ const Courses = () => {
             >
                 {courses.map((course) => (
                     <Grid key ={course._id} item xs={12} sm={6}>
-                        <Course course={course} />
+                        <Course course={course} setCurrentId={setCurrentId} />
                     </Grid>
                 ))}
             </Grid>

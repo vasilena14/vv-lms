@@ -34,7 +34,7 @@ export const updateCourse =  async (req, res) => {
 
     if(!mongoose.Types.ObjectId.isValid(_id)) return res.status(404).send('No post with that id');
 
-    const updatedCourse = await CourseInfo.findByIdAndUpdate(_id, course, {new: true});
+    const updatedCourse = await CourseInfo.findByIdAndUpdate(_id, {...course, _id} , {new: true});
 
     res.json(updatedCourse);
 }

@@ -7,7 +7,7 @@ export const getCourses = () => async (dispatch) => {
 
         dispatch({ type: 'FETCH_ALL', payload: data })
     } catch (error) {
-        console.log(error.message)
+        console.log(error)
     }
 }
 
@@ -17,6 +17,16 @@ export const createCourse = (course) => async (dispatch) => {
 
         dispatch({ type: 'CREATE', payload: data });
     } catch (error) {
-        console.log(error.message);
+        console.log(error);
+    }
+}
+
+export const updateCourse = (id, course) => async (dispatch) => {
+    try {
+        const { data } = await api.updateCourse(id, course);
+
+        dispatch({ type: 'UPDATE', payload: data });
+    } catch (error) {
+        console.log(error);
     }
 }
