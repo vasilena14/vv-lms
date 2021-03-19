@@ -6,7 +6,7 @@ import Course from './Course/Course';
 import useStyles from './styles';
 
 const Courses = () => {
-    const courses = useSelector(() => StaticRange.courses);
+    const courses = useSelector((state) => state.courses);
     const classes = useStyles();
 
     console.log(courses);

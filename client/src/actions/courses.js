@@ -1,4 +1,4 @@
-import * as api from '../api';
+import * as api from '../api/index.js';
 
 //Action Creators
 export const getCourses = () => async (dispatch) => {
@@ -8,5 +8,15 @@ export const getCourses = () => async (dispatch) => {
         dispatch({ type: 'FETCH_ALL', payload: data })
     } catch (error) {
         console.log(error.message)
+    }
+}
+
+export const createCourse = (course) => async (dispatch) => {
+    try {
+        const { data } = await api.createCourse(course);
+
+        dispatch({ type: 'CREATE', payload: data });
+    } catch (error) {
+        console.log(error.message);
     }
 }
