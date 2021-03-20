@@ -9,28 +9,28 @@ import { createCourse, updateCourse } from '../../actions/courses';
 
 const Form = ({ currentId, setCurrentId }) => {
     const course = useSelector((state) => currentId ? state.courses.find((p) => p._id === currentId) : null );
-    const [courseInfo, setCourseInfo] = useState({ creator: '', title: '', description: '', tags: '', selectedFile: '' });
+    const [courseData, setCourseData] = useState({ creator: '', title: '', description: '', tags: '', selectedFile: '' });
     const classes = useStyles(); 
     const dispatch = useDispatch();
 
     useEffect(() => {
-        if(course) setCourseInfo(course);
+        if(course) setCourseData(course);
     }, [course])
 
     const handleSubmit = (e) => {
         e.preventDefault();
 
         if(currentId) {
-            dispatch(updateCourse(currentId, courseInfo));   
+            dispatch(updateCourse(currentId, courseData));   
         } else {
-            dispatch(createCourse(courseInfo));
+            dispatch(createCourse(courseData));
         }
         clear();
     }
 
     const clear = () => {
         setCurrentId(null);
-        setCourseInfo({creator: '', title: '', description: '', tags: '', selectedFile: ''});
+        setCourseData({creator: '', title: '', description: '', tags: '', selectedFile: ''});
     }
 
     return (
@@ -42,37 +42,37 @@ const Form = ({ currentId, setCurrentId }) => {
                     variant="outlined" 
                     label="Creator" 
                     fullWidth 
-                    value={courseInfo.creator} 
-                    onChange={(e) => setCourseInfo({ ...courseInfo, creator: e.target.value })} 
+                    value={courseData.creator} 
+                    onChange={(e) => setCourseData({ ...courseData, creator: e.target.value })} 
                 />
                 <TextField 
                     name="title" 
                     variant="outlined" 
                     label="Title" 
                     fullWidth 
-                    value={courseInfo.title} 
-                    onChange={(e) => setCourseInfo({ ...courseInfo, title: e.target.value })} 
+                    value={courseData.title} 
+                    onChange={(e) => setCourseData({ ...courseData, title: e.target.value })} 
                 />
                 <TextField 
                     name="description" 
                     variant="outlined" 
                     label="Description" 
-                    fullWidth value={courseInfo.description} 
-                    onChange={(e) => setCourseInfo({ ...courseInfo, description: e.target.value })}
+                    fullWidth value={courseData.description} 
+                    onChange={(e) => setCourseData({ ...courseData, description: e.target.value })}
                 />
                 <TextField 
                     name="tags" 
                     variant="outlined" 
                     label="Tags" 
                     fullWidth 
-                    value={courseInfo.tags} 
-                    onChange={(e) => setCourseInfo({ ...courseInfo, tags: e.target.value })} 
+                    value={courseData.tags} 
+                    onChange={(e) => setCourseData({ ...courseData, tags: e.target.value.split(',') })} 
                 />
                 <div className={classes.fileInput}>
                     <FileBase 
                         type="file" 
                         multiple={false} 
-                        onDone={({base64}) => setCourseInfo({...courseInfo, selectedFile: base64}) }
+                        onDone={({base64}) => setCourseData({...courseData, selectedFile: base64}) }
                     />
                 </div>
                 <Button 

@@ -34,17 +34,33 @@ const Course = ({ course, setCurrentId }) => {
                 </Button>
             </div>
             <div className={classes.details}>
-                <Typography variant="body2" color="textSecondary">{course.tags.map((tag) => `#${tag} `)}</Typography>
+                <Typography 
+                    variant="body2" 
+                    color="textSecondary"
+                >
+                    {course.tags.map((tag) => `#${tag} `)}
+                </Typography>
             </div>
-            <Typography className={classes.title} variant="h5" gutterBottom>{course.title}</Typography>
+            <Typography 
+                className={classes.title} 
+                variant="h5" gutterBottom
+            >
+                {course.title}
+            </Typography>
             <CardContent>
-                <Typography variant="h5" gutterBottom>{course.description}</Typography>
+                <Typography 
+                    variant="body1"
+                    color="textSecondary" 
+                    component="p"
+                >
+                    {course.description}
+                </Typography>
             </CardContent>
             <CardActions className={classes.cardActions}>
                 <Button size="small" color="primary" onClick={() => dispatch(likeCourse(course._id))}>
+                    {course.likeCount}  &nbsp;
                     <ThumbUpAltIcon fontSize="small" />
-                    Like
-                    {course.likeCount}
+                    &nbsp; Like 
                 </Button>
                 <Button size="small" color="primary" onClick={() => dispatch(deleteCourse(course._id))}>
                     <DeleteIcon fontSize="small" />
