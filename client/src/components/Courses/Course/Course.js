@@ -7,7 +7,7 @@ import moment from 'moment';
 import useStyles from './styles';
 import { useDispatch } from 'react-redux';
 
-import { deleteCourse } from '../../../actions/courses';
+import { deleteCourse, likeCourse } from '../../../actions/courses';
 
 const Course = ({ course, setCurrentId }) => {
     const classes = useStyles();
@@ -41,7 +41,7 @@ const Course = ({ course, setCurrentId }) => {
                 <Typography variant="h5" gutterBottom>{course.description}</Typography>
             </CardContent>
             <CardActions className={classes.cardActions}>
-                <Button size="small" color="primary" onClick={() => {}}>
+                <Button size="small" color="primary" onClick={() => dispatch(likeCourse(course._id))}>
                     <ThumbUpAltIcon fontSize="small" />
                     Like
                     {course.likeCount}

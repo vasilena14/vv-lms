@@ -50,3 +50,14 @@ export const deleteCourse =  async (req, res) => {
 
     res.json({ message: 'Course deleted successfully' });
 }
+
+export const likeCourse = async (req, res) => {
+    const { id } = req.params;
+
+    if(!mongoose.Types.ObjectId.isValid(id)) return res.status(404).send('No post with that id');
+
+    const course = await CourseInfo.findById(id);
+    const updatedCourse = await CourseInfo.findByIdAndUpdate(id, { likeCount: course.likeCount + 1 }, { new: true });
+
+    res.json(updatedCourse);
+}

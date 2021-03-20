@@ -40,3 +40,13 @@ export const deleteCourse = (id) => async (dispatch) => {
         console.log(error);
     }
 }
+
+export const likeCourse = (id) => async (dispatch) => {
+    try {
+        const { data } = await api.likeCourse(id);
+
+        dispatch({ type: 'UPDATE', payload: data });
+    } catch (error) {
+        console.log(error);
+    }
+}
