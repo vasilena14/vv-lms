@@ -1,5 +1,7 @@
 export default (courses = [], action) => {
     switch (action.type) {
+        case 'DELETE':
+            return courses.filter((course) => course._id !== action.payload);
         case 'FETCH_ALL':
             return action.payload;
         case 'CREATE':

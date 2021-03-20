@@ -5,9 +5,14 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 import moment from 'moment';
 import useStyles from './styles';
+import { useDispatch } from 'react-redux';
+
+import { deleteCourse } from '../../../actions/courses';
 
 const Course = ({ course, setCurrentId }) => {
-    const classes = useStyles(); 
+    const classes = useStyles();
+    const dispatch = useDispatch();
+
     return (
         <Card className={classes.card}>
             <CardMedia 
@@ -41,7 +46,7 @@ const Course = ({ course, setCurrentId }) => {
                     Like
                     {course.likeCount}
                 </Button>
-                <Button size="small" color="primary" onClick={() => {}}>
+                <Button size="small" color="primary" onClick={() => dispatch(deleteCourse(course._id))}>
                     <DeleteIcon fontSize="small" />
                     Delete
                 </Button>

@@ -38,3 +38,15 @@ export const updateCourse =  async (req, res) => {
 
     res.json(updatedCourse);
 }
+
+export const deleteCourse =  async (req, res) => {
+    const { id } = req.params;
+
+    if(!mongoose.Types.ObjectId.isValid(id)) return res.status(404).send('No post with that id');
+
+    await CourseInfo.findByIdAndRemove(id);
+
+    console.log('DELETE')
+
+    res.json({ message: 'Course deleted successfully' });
+}

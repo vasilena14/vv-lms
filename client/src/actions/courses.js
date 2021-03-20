@@ -30,3 +30,13 @@ export const updateCourse = (id, course) => async (dispatch) => {
         console.log(error);
     }
 }
+
+export const deleteCourse = (id) => async (dispatch) => {
+    try {
+        await api.deleteCourse(id);
+
+        dispatch({ type: 'DELETE', payload: id });
+    } catch (error) {
+        console.log(error);
+    }
+}
