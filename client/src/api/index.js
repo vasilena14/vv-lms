@@ -1,6 +1,7 @@
 import axios from 'axios';
 
-const url = 'https://vv-lms.herokuapp.com/courses';
+const url = 'http://localhost:5000/courses';
+// const url = 'https://vv-lms.herokuapp.com/courses';
 
 export const fetchCourses = () => axios.get(url);
 export const createCourse = (newCourse) => axios.post(url, newCourse);
