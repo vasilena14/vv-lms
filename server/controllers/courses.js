@@ -54,10 +54,21 @@ export const deleteCourse =  async (req, res) => {
 export const likeCourse = async (req, res) => {
     const { id } = req.params;
 
+    if(!req.userId) return res.json({ message: 'Unauthenticated' });
+
     if(!mongoose.Types.ObjectId.isValid(id)) return res.status(404).send('No post with that id');
 
     const course = await CourseInfo.findById(id);
-    const updatedCourse = await CourseInfo.findByIdAndUpdate(id, { likeCount: course.likeCount + 1 }, { new: true });
+
+    const index = course.likes.findIndex((id) => id === String(req.userId));
+
+    if(index === -1) {
+        course.likes.push(req.userId);
+    } else {
+        course.likes = course.likes.filter((id) => id !== String(req.userId));
+    }
+
+    const updatedCourse = await CourseInfo.findByIdAndUpdate(id, course, { new: true });
 
     res.json(updatedCourse);
 }
