@@ -1,10 +1,14 @@
 import axios from 'axios';
 
-const url = 'http://localhost:5000/courses';
+const API = axios.create({ baseURL: 'http://localhost:5000' })
+
 // const url = 'https://vv-lms.herokuapp.com/courses';
 
-export const fetchCourses = () => axios.get(url);
-export const createCourse = (newCourse) => axios.post(url, newCourse);
-export const updateCourse = (id, updatedCourse) => axios.patch(`${url}/${id}`, updatedCourse);
-export const deleteCourse = (id) => axios.delete(`${url}/${id}`);
-export const likeCourse = (id) => axios.patch(`${url}/${id}/LikeCourse`);
+export const fetchCourses = () => API.get('/courses');
+export const createCourse = (newCourse) => API.post('/courses', newCourse);
+export const likeCourse = (id) => API.patch(`/courses/${id}/likeCourse`);
+export const updateCourse = (id, updatedCourse) => API.patch(`/courses/${id}`, updatedCourse);
+export const deleteCourse = (id) => API.delete(`/courses/${id}`);
+
+export const signIn = (formData) => API.post('/user/signin', formData);
+export const signUp = (formData) => API.post('/user/signup', formData);

@@ -63,8 +63,10 @@ export const likeCourse = async (req, res) => {
     const index = course.likes.findIndex((id) => id === String(req.userId));
 
     if(index === -1) {
+        //like the course
         course.likes.push(req.userId);
     } else {
+        //dislike the course
         course.likes = course.likes.filter((id) => id !== String(req.userId));
     }
 

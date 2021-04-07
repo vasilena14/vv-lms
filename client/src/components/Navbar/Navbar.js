@@ -20,6 +20,9 @@ const Navbar = () => {
         setUser(null);
     }
 
+    //helps for the google login - 
+    //refreshes automatically the profile in the navbar
+    
     useEffect(() => {
         const token = user?.token;
 

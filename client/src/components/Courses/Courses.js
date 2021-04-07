@@ -10,7 +10,7 @@ const Courses = ({ setCurrentId }) => {
     const courses = useSelector((state) => state.courses);
     const classes = useStyles();
 
-    console.log(courses);
+    // console.log(courses);
     
     return (
         !courses.length ? <CircularProgress /> : (

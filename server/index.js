@@ -5,7 +5,7 @@ import dotenv from 'dotenv';
 import cors from 'cors';
 
 import courseRoutes from './routes/courses.js';
-import userRoutes from './routes/users.js';
+import userRoutes from './routes/user.js';
 
 const app = express();
 dotenv.config();
