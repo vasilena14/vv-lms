@@ -1,6 +1,7 @@
 import React from 'react';
 import { Card, CardActionArea, CardActions, CardContent, CardMedia, Button, Typography } from '@material-ui/core'
 import ThumbUpAltIcon from '@material-ui/icons/ThumbUpAlt';
+import ThumbUpAltOutlined from '@material-ui/icons/ThumbUpAltOutlined';
 import DeleteIcon from '@material-ui/icons/Delete';
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 import moment from 'moment';
@@ -12,6 +13,20 @@ import { deleteCourse, likeCourse } from '../../../actions/courses';
 const Course = ({ course, setCurrentId }) => {
     const classes = useStyles();
     const dispatch = useDispatch();
+    const user = JSON.parse(localStorage.getItem('profile'));
+
+    const Likes = () => {
+        if (course.likes.length > 0) {
+            return course.likes.find((like) => like === (user?.result?.googleId || user?.result?._id))
+            ? (
+                <><ThumbUpAltIcon fontSize="small" />&nbsp;{course.likes.length > 2 ? `You and ${course.likes.length - 1} others` : `${course.likes.length} like${course.likes.length > 1 ? 's' : ''}` }</>
+            ) : (
+                <><ThumbUpAltIcon fontSize="small" />&nbsp;{course.likes.length} {course.likes.length === 1 ? 'Like' : 'Likes'}</>
+            );
+        }
+
+        return <><ThumbUpAltOutlined fontSize="small" />&nbsp;Like</>
+    };
 
     return (
         <Card className={classes.card}>
@@ -22,18 +37,20 @@ const Course = ({ course, setCurrentId }) => {
                     title={course.title}
                 />
                 <div className={classes.overlay}>
-                    <Typography variant="h6">{course.creator}</Typography>
+                    <Typography variant="h6">{course.name}</Typography>
                     <Typography variant="body2">{moment(course.createdAt).fromNow()}</Typography> 
                 </div>
-                <div className={classes.overlay2}>
-                    <Button 
-                        style={{color:'white'}} 
-                        size="small" 
-                        onClick={() => setCurrentId(course._id)}
-                    >
-                        <MoreHorizIcon fontSize="default" />
-                    </Button>
-                </div>
+                {(user?.result?.googleId === course?.creator || user?.result?._id === course?.creator) && (
+                    <div className={classes.overlay2}>
+                        <Button 
+                            style={{color:'white'}} 
+                            size="small" 
+                            onClick={() => setCurrentId(course._id)}
+                        >
+                            <MoreHorizIcon fontSize="default" />
+                        </Button>
+                    </div>
+                )}
                 <div className={classes.details}>
                     <Typography 
                         variant="body2" 
@@ -59,15 +76,15 @@ const Course = ({ course, setCurrentId }) => {
                 </CardContent>
             </CardActionArea>
             <CardActions className={classes.cardActions}>
-                <Button size="small" color="primary" onClick={() => dispatch(likeCourse(course._id))}>
-                    {course.likeCount}  &nbsp;
-                    <ThumbUpAltIcon fontSize="small" />
-                    &nbsp; Like 
+                <Button size="small" color="primary" disabled={!user?.result} onClick={() => dispatch(likeCourse(course._id))}>
+                    <Likes />
                 </Button>
-                <Button size="small" color="primary" onClick={() => dispatch(deleteCourse(course._id))}>
-                    <DeleteIcon fontSize="small" />
-                    Delete
-                </Button>
+                {(user?.result?.googleId === course?.creator || user?.result?._id === course?.creator) && (
+                    <Button size="small" color="primary" onClick={() => dispatch(deleteCourse(course._id))}>
+                        <DeleteIcon fontSize="small" />
+                        Delete
+                    </Button>
+                )}
             </CardActions>
         </Card>
     );

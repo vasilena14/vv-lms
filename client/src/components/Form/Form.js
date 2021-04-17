@@ -9,42 +9,46 @@ import { createCourse, updateCourse } from '../../actions/courses';
 
 const Form = ({ currentId, setCurrentId }) => {
     const course = useSelector((state) => currentId ? state.courses.find((p) => p._id === currentId) : null );
-    const [courseData, setCourseData] = useState({ creator: '', title: '', description: '', tags: '', selectedFile: '' });
+    const [courseData, setCourseData] = useState({ title: '', description: '', tags: '', selectedFile: '' });
     const classes = useStyles(); 
     const dispatch = useDispatch();
+    const user = JSON.parse(localStorage.getItem('profile'));
 
     useEffect(() => {
         if(course) setCourseData(course);
     }, [course])
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
 
-        if(currentId) {
-            dispatch(updateCourse(currentId, courseData));   
+        if(currentId === 0) {
+            dispatch(createCourse({...courseData, name: user?.result?.name }));
+            clear();
         } else {
-            dispatch(createCourse(courseData));
+            dispatch(updateCourse(currentId, {...courseData, name: user?.result?.name }));
+            clear();
         }
-        clear();
+    };
+
+    if (!user?.result?.name) {
+        return (
+            <Paper className={classes.paper}>
+                <Typography variant="h6" align="center">
+                    Please Sign In to create a new course.
+                </Typography>
+            </Paper>
+        )
     }
 
     const clear = () => {
         setCurrentId(null);
-        setCourseData({creator: '', title: '', description: '', tags: '', selectedFile: ''});
+        setCourseData({title: '', description: '', tags: '', selectedFile: ''});
     }
 
     return (
         <Paper className={classes.paper}>
             <form autoComplete="off" noValidate className={`${classes.root} ${classes.form}`} onSubmit={handleSubmit}>
                 <Typography variant="h6">{currentId ? 'Editing' : 'Creating'} a Course</Typography>
-                <TextField 
-                    name="creator" 
-                    variant="outlined" 
-                    label="Creator" 
-                    fullWidth 
-                    value={courseData.creator} 
-                    onChange={(e) => setCourseData({ ...courseData, creator: e.target.value })} 
-                />
                 <TextField 
                     name="title" 
                     variant="outlined" 

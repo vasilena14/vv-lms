@@ -17,7 +17,7 @@ export const createCourse = async (req, res) => {
     // res.send('Course Creation');
     const course = req.body;
 
-    const newCourse = new CourseInfo(course);
+    const newCourse = new CourseInfo({...course, creator: req.userId, createdAt: new Date().toISOString()});
 
     try {
         await newCourse.save();
